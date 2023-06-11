@@ -9,6 +9,7 @@ public enum InteractionLayer
     Hands= 1 << 1, 
     Cannon= 1 << 2, 
     Lightmap= 1 << 3, 
+    Squishing = 1 << 4, 
 }
 
 public class Interactor : MonoBehaviour
@@ -35,9 +36,13 @@ public class Interactor : MonoBehaviour
         set => _interactive = value;
     }
 
-    public InteractionLayer InteractionLayer => _interactionLayer;
+    public InteractionLayer InteractionLayer
+    {
+        get => _interactionLayer;
+        set => _interactionLayer = value;
+    }
 
-#region UnityMethods
+    #region UnityMethods
     private void Awake()
     {
         _interactionSystem = InteractionSystem.GetInteractionSystemInstance();

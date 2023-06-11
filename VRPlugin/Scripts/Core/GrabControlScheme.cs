@@ -17,7 +17,7 @@ public class GrabControlScheme
     [SerializeField] 
     private List<GrabControllerType> _possibleControllerTypes = new List<GrabControllerType>();
     [SerializeField]
-    private RailroadedGrabController.RailroadedData _serializedData;
+    private RailroadedGrabController.RailroadedData _railroadedData;
     [SerializeField]
     private RotateGrabController.Data _rotateData;
     [SerializeField] 
@@ -27,7 +27,7 @@ public class GrabControlScheme
 
     public void SetRailroadedGrabController(RailroadedGrabController.RailroadedData serializedData)
     {
-        _serializedData = serializedData;
+        _railroadedData = serializedData;
     }
     
     public GrabController GetGrabController(List<Interactor> interactors, GrabBehaviour owner)
@@ -50,11 +50,8 @@ public class GrabControlScheme
             case GrabControllerType.Simple:
                 result = new SimpleGrabController(grabbingInteractors[0]);
                 break;
-            //case GrabControllerType.Stick:
-                //result = new StickGrabController(grabbingInteractors[0], grabbingInteractors[1], owner);
-                break;
             case GrabControllerType.Railroaded:
-                result = new RailroadedGrabController(grabbingInteractors[0], grabbingInteractors[1], _serializedData);
+                result = new RailroadedGrabController(grabbingInteractors[0], grabbingInteractors[1], _railroadedData);
                 break;
             case GrabControllerType.Rotation:
                  return new RotateGrabController(_rotateData, grabbingInteractors[0].GetPosition(), owner.ReturnValue);

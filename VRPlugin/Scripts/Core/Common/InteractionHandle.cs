@@ -35,6 +35,7 @@ public class InteractionHandle : MonoBehaviour
     [ReadOnly]
     private List<Interactor> _interactorsInside = new List<Interactor>();
     private ManagedList<Interactor> _interactorsGrabbing = new ManagedList<Interactor>();
+    private bool _waitingForActivation = false;
 
 #region Properties
     public bool IsGrabbed => _isGrabbed;
@@ -50,6 +51,13 @@ public class InteractionHandle : MonoBehaviour
         _interactorsGrabbing.OnFirstElementAdded += OnFirstGrabbed;
         _interactorsGrabbing.OnEmptied += OnLastReleased;
     }
+
+    private void OnDestroy()
+    {
+        _interactorsGrabbing.OnFirstElementAdded -= OnFirstGrabbed;
+        _interactorsGrabbing.OnEmptied -= OnLastReleased;
+    }
+
     private void OnEnable()
     {
         _interactionSystem.Handles.Add(this);
@@ -74,18 +82,35 @@ public class InteractionHandle : MonoBehaviour
     
     private void InteractorOnPositionChanged(Interactor interactor)
     {
-        if (!_interactionBounds.IsWithinReach(interactor.GetPosition()))
+        if (!_interactionBounds)
         {
             interactor.OnPositionChanged -= InteractorOnPositionChanged;
-            _interactorsInside.Remove(interactor);
-            if (_releaseInteractorsWhenTheyLeaveHandleArea)
-            {
-                _interactorsGrabbing.Remove(interactor);
-            }
+            return;
+        }
+        if (!_interactionBounds.IsWithinReach(interactor.GetPosition()))
+        {
+            Exit(interactor);
         }
         if(_isGrabbed)
         {
             HandleBeingGrabbed();
+        }
+    }
+
+    private void Exit(Interactor interactor)
+    {
+        interactor.OnPositionChanged -= InteractorOnPositionChanged;
+        _interactorsInside.Remove(interactor);
+        if (_releaseInteractorsWhenTheyLeaveHandleArea && !_waitingForActivation)
+        {
+            _interactorsGrabbing.Remove(interactor);
+            OnReleased?.Invoke(interactor);
+        }
+
+        if (_waitingForActivation)
+        {
+            _waitingForActivation = false;
+            interactor.OnActivated -= OnActivated;
         }
     }
     
@@ -109,6 +134,7 @@ public class InteractionHandle : MonoBehaviour
             else
             {
                 interactor.OnActivated += OnActivated;
+                _waitingForActivation = true;
             }
             interactor.OnPositionChanged += InteractorOnPositionChanged;
             _onEntered?.Invoke();

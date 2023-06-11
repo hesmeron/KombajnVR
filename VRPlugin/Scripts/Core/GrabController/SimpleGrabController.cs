@@ -21,6 +21,6 @@ public class SimpleGrabController : GrabController
 
     protected override Vector3 AdjustPosition(TransformData[] args, Vector3 position)
     {
-        return _interactor.GetPosition();
+        return args[0].Position;
     }
 }
