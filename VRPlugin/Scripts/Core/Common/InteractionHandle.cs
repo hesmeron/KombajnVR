@@ -143,11 +143,14 @@ public class InteractionHandle : MonoBehaviour
 
     public void OnActivated(Interactor interactor)
     {
-        _isGrabbed = true;
-        interactor.OnReleased += InteractorOnReleased;
-        _interactorsGrabbing.Add(interactor);
-        OnGrabbed?.Invoke(interactor);
-        StartCoroutine(GrabbedCoroutine());
+        if (CanInteract(interactor))
+        {
+            _isGrabbed = true;
+            interactor.OnReleased += InteractorOnReleased;
+            _interactorsGrabbing.Add(interactor);
+            OnGrabbed?.Invoke(interactor);
+            StartCoroutine(GrabbedCoroutine());
+        }
     }
     
     public void HandleBeingGrabbed()
