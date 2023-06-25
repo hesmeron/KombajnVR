@@ -41,16 +41,19 @@ public class BroadcastSubsystem<T> : BroadcastSubsystem
     {
         _receivers.Add(receiver);
     }
+    
+    public void RemoveReceiver(BroadcastReceiver<T> receiver)
+    {
+        _receivers.Remove(receiver);
+    }
 
     private void EvaluateSystem()
     {
-        Debug.Log("Evaluate system " +_receivers.Count);
         List<Broadcast<T>> toRemove = new List<Broadcast<T>>();
         foreach (BroadcastReceiver<T> receiver in _receivers)
         {
             foreach (Broadcast<T> broadcast in _broadcasts)
             {
-                Debug.Log("Evaluate broadcast");
                 if (receiver.TryReceiveBroadcast(broadcast))
                 {
                     toRemove.Add(broadcast);

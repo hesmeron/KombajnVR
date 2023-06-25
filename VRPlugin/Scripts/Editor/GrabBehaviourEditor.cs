@@ -13,6 +13,5 @@ public class GrabBehaviourEditor : Editor
         matrix.SetTRS(Handles.matrix.GetPosition(), Quaternion.LookRotation(_data.AxisNormal) * Handles.matrix.rotation, Vector3.one);
         Handles.color = Color.red;
         Handles.DrawWireCube(_data.AxisOrigin, new Vector3(1, 0, 1));
-        
     }
 }

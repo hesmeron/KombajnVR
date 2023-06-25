@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionSystem : MonoBehaviour
@@ -57,9 +58,12 @@ public class InteractionSystem : MonoBehaviour
     {
         while (_isSearching)
         {
-            foreach (Interactor interactor in _interactors)
+            List<Interactor> interactors = _interactors.List.GetRange(0, _interactors.Count);
+            List<InteractionHandle> handles = _handles.List.GetRange(0, _handles.Count);
+                
+            foreach (Interactor interactor in interactors)
             {
-                foreach (InteractionHandle interactionHandle in _handles)
+                foreach (InteractionHandle interactionHandle in handles)
                 {
                     if (interactionHandle.CanInteract(interactor))
                     {

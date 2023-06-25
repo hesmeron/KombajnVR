@@ -34,7 +34,7 @@ public class HandController : MonoBehaviour
     }
     
     [Button]
-    private void OnGrabCanceled(InputAction.CallbackContext obj)
+    protected virtual void OnGrabCanceled(InputAction.CallbackContext obj)
     {
         _interactor.Deactivate();
         _inactiveMesh.SetActive(true);
@@ -42,7 +42,7 @@ public class HandController : MonoBehaviour
     }
 
     [Button]
-    private void OnGrabPerformed(InputAction.CallbackContext obj)
+    protected virtual void OnGrabPerformed(InputAction.CallbackContext obj)
     {
         _interactor.Actitvate();
         _inactiveMesh.SetActive(false);

@@ -63,17 +63,18 @@ public class GrabBehaviour : MonoBehaviour
 
 
 #region UnityMethods
-    private void Start()
+    private void OnEnable()
     {
         _handle.OnGrabbed += OnHandleGrabbed;
         _handle.OnReleased += HandleOnReleased;
         _handle.OnBeingGrabbed += OnBeingGrabbed;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _handle.OnGrabbed -= OnHandleGrabbed;
         _handle.OnReleased -= HandleOnReleased;
+        _handle.OnBeingGrabbed -= OnBeingGrabbed;
     }
 
     private void OnDrawGizmos()
@@ -155,7 +156,7 @@ public class GrabBehaviour : MonoBehaviour
         Quaternion startQuaternion = TargetLocalRotation();
         
         TransformData transformData = _currentGrabController.OnBeingGrabbed(args, startPosition, startQuaternion);
-        Vector3 newGlobalPosition = _matrix.inverse.MultiplyPoint(transformData.Position);
+        Vector3 newGlobalPosition = _matrix.MultiplyPoint(transformData.Position);
         _lastPosition = _matrix.inverse.MultiplyPoint(transformData.Position);
         _target.transform.position = newGlobalPosition;
         _transformData = transformData;

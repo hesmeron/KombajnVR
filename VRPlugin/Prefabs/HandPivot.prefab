@@ -198,7 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cbb78a35369434ebc306d13bc378be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionLayer: 1
+  _interactionLayer: 2
+  _interactive: 0
 --- !u!1 &8924348557533319295
 GameObject:
   m_ObjectHideFlags: 0
