@@ -33,8 +33,7 @@ public class InteractionSystemEditor : Editor
         grabPosition =transformPosition;
         Handles.matrix = Matrix4x4.identity;
         Handles.color = new Color(0, 1f, 0f, 0.25f);
-        Vector3 position = Handles.FreeMoveHandle(grabPosition, 
-            Quaternion.identity,radius, 
+        var fmh_37_13_638233058009171129 = Quaternion.identity; Vector3 position = Handles.FreeMoveHandle(grabPosition,radius, 
             Vector3.one * radius, 
             Handles.SphereHandleCap);
         if (EditorGUI.EndChangeCheck())

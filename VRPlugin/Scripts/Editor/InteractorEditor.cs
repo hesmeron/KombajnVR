@@ -17,8 +17,7 @@ public class InteractorEditor : Editor
 
             grabPosition =transformPosition;
             Handles.color = new Color(0, 1f, 0f, 0.25f);
-            Vector3 position = Handles.FreeMoveHandle(grabPosition, 
-                Quaternion.identity,radius, 
+            var fmh_21_17_638233058009171024 = Quaternion.identity; Vector3 position = Handles.FreeMoveHandle(grabPosition,radius, 
                 Vector3.one * radius, 
                 Handles.SphereHandleCap);
             if (EditorGUI.EndChangeCheck())
